@@ -29,7 +29,7 @@ main = do
   -- merge old and new release
   let release = updateRelease archs old_release pending_release
 
-  writeRelease "/tmp/release.hs" release
+  writeRelease config release
 
   -- write package to their destination
   mapM_ (writeToPool $ configPoolDir config) $ zip debinfo contents
