@@ -1,4 +1,5 @@
 module Apotiki.Tar (getControl, getStrictControl) where
+import Data.List
 import qualified Data.Map as M
 import qualified Codec.Archive.Tar as Tar
 import qualified Data.ByteString as BS
@@ -10,7 +11,8 @@ tarEntryList :: Tar.Entries Tar.FormatError -> [Tar.Entry] -> [Tar.Entry]
 tarEntryList entries outlist =
   case entries of
     Tar.Next entry (more) -> (tarEntryList more (entry:outlist))
-    _ -> outlist
+    Tar.Done -> outlist
+    Tar.Fail e -> error (show e)
 
 tarEntryPayload :: Tar.EntryContent -> String
 tarEntryPayload (Tar.NormalFile payload size) = BC.unpack payload
@@ -24,9 +26,6 @@ getControl content =
   tarEntryPayload $ Tar.entryContent entry
     where unzipped = Z.decompress content
           entries = tarEntryList (Tar.read unzipped) []
-          entry = head $ filter ((== "./control") . Tar.entryPath) entries
-
-test :: String -> IO ()
-test path = do
-  content <- B.readFile path
-  putStrLn $ getControl content
+          entry = case find ((== "./control") . Tar.entryPath) entries of
+            Just entry -> entry
+            Nothing -> error (show $ map Tar.entryPath entries)
