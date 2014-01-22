@@ -1,5 +1,6 @@
 module Apotiki.Debian.Release where
 import Apotiki.Debian.Package
+import Apotiki.Debian.Control
 import System.Directory
 import Data.List
 import Data.Function

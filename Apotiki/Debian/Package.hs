@@ -4,12 +4,12 @@ import Apotiki.Tar
 import Apotiki.FileInfo
 import Apotiki.Utils
 import Apotiki.Config
+import Apotiki.Debian.Control
 import Data.List
 import System.Directory
+import Data.ByteString.Char8 (pack, unpack)
 import qualified Data.ByteString as B
 import qualified Data.Map as M
-
-type DebInfo = M.Map String String
 
 writeToPool :: String -> (DebInfo, B.ByteString) -> IO ()
 writeToPool pooldir (info, payload) = do
@@ -24,8 +24,7 @@ writeToPool pooldir (info, payload) = do
   writeFile (pooldir ++ "/" ++ dir_path ++ "control") (show info)
 
 toDebInfo :: String -> DebInfo
-toDebInfo control =
-  M.fromList $ [keyval x | x <- lines control]
+toDebInfo input = output where Right output = ctlFromData $ pack $ input
 
 debInfo :: ApotikiConfig -> B.ByteString -> DebInfo
 debInfo config payload =
