@@ -4,12 +4,19 @@ import Apotiki.Debian.Release
 import Apotiki.Config
 import Data.Map (keys)
 import System.Environment
+import Control.Exception
+import Control.Monad (guard)
+import System.IO.Error (isDoesNotExistError)
 import qualified Data.ByteString as B
 
 main :: IO ()
 main = do
   -- first fetch our config
-  confdata <- readFile "/tmp/apotiki.conf"
+  result <-  tryJust (guard . isDoesNotExistError) $ getEnv "APOTIKI_CONFIG"
+  let confpath = case result of
+        Left e -> "/etc/apotiki.conf"
+        Right val -> val
+  confdata <- readFile confpath
   let config = read confdata :: ApotikiConfig
   putStrLn "read config"
 
