@@ -15,7 +15,6 @@ main = do
 
   -- now load our view of the world
   old_release <- loadRelease $ configPoolDir config
-  putStrLn $ show old_release
   putStrLn $ "got previous release: "  ++ (show $ length $ keys old_release)
 
   -- process new artifacts from command line
