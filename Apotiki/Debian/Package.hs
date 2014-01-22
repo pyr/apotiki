@@ -18,7 +18,7 @@ writeToPool pooldir (info, payload) = do
   putStrLn $ "found filename: " ++ path
   createDirectoryIfMissing True (pooldir ++ "/" ++ dir_path)
   B.writeFile (pooldir ++ "/" ++ path) payload
-  writeFile (pooldir ++ "/" ++ dir_path ++ "control") (show info)
+  B.writeFile (pooldir ++ "/" ++ dir_path ++ "control") $ pack (show info)
 
 toDebInfo :: String -> DebInfo
 toDebInfo input = output where Right output = ctlFromData $ pack $ input
