@@ -1,4 +1,4 @@
-module Apotiki.Utils (strip, keyval) where
+module Apotiki.Utils (strip) where
 import Data.List
 
 -- inspired by MissingH
@@ -17,7 +17,3 @@ rstrip = reverse . lstrip . reverse
 
 strip :: String -> String
 strip = lstrip . rstrip
-
-keyval :: String -> (String,String)
-keyval input = (key, (strip val)) where
-  (key,':':val) = break (== ':') input
