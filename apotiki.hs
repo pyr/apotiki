@@ -2,6 +2,7 @@ module Main where
 import Apotiki.Debian.Package
 import Apotiki.Debian.Release
 import Apotiki.Config
+import Data.Map (keys)
 import System.Environment
 import qualified Data.ByteString as B
 
@@ -13,8 +14,9 @@ main = do
   putStrLn "read config"
 
   -- now load our view of the world
-  old_release <- loadRelease $ configDistDir config
-  putStrLn "got previous release"
+  old_release <- loadRelease $ configPoolDir config
+  putStrLn $ show old_release
+  putStrLn $ "got previous release: "  ++ (show $ length $ keys old_release)
 
   -- process new artifacts from command line
   debfiles <- getArgs
@@ -22,6 +24,8 @@ main = do
   let debinfo = map (debInfo config) contents
   let archs = configArchs config
   let pending_release = releaseFrom archs debinfo
+
+  putStrLn $ "got pending release: "  ++ (show $ length $ keys pending_release)
 
   -- merge old and new release
   let release = updateRelease archs old_release pending_release
