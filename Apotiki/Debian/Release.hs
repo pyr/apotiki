@@ -5,6 +5,7 @@ import Apotiki.FileInfo
 import Apotiki.Config
 import Apotiki.Signature
 import System.Directory
+import System.IO
 import Data.List
 import Data.Function
 import Data.ByteString.Char8 (pack,unpack)
@@ -27,7 +28,9 @@ unroll input = (concat $ intersperse "\n\n" $ map unrollMap input) ++ "\n"
 
 pkgControl pooldir arch pkg = do
   let path = pooldir ++ "/" ++ arch ++ "/" ++ pkg ++ "/control"
-  control_data <- readFile path
+  fd <- openFile path ReadMode
+  control_data <- hGetContents fd
+  hClose fd
   return (read control_data :: DebInfo)
 
 archRelease pooldir arch = do
