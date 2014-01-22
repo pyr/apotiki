@@ -26,7 +26,7 @@ ctlEntryParser = do
   return (k, strip v)
 
 ctlParser :: P.Parser DebInfo
-ctlParser = M.fromList `fmap` manyTill ctlEntryParser P.endOfInput
+ctlParser = M.fromList `fmap` many1 ctlEntryParser
 
 ctlFromData :: B.ByteString -> Either String DebInfo
 ctlFromData input = P.parseOnly ctlParser input
