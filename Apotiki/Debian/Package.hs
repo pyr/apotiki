@@ -16,11 +16,8 @@ writeToPool pooldir (info, payload) = do
   let path = info M.! "Filename"
   let dir_path = reverse $ snd $ break (== '/') $ reverse path
   putStrLn $ "found filename: " ++ path
-  putStrLn $ "will create: " ++ dir_path
   createDirectoryIfMissing True (pooldir ++ "/" ++ dir_path)
-  putStrLn $ "creating deb in: " ++ (pooldir ++ "/" ++ dir_path)
   B.writeFile (pooldir ++ "/" ++ path) payload
-  putStrLn $ "creating deb control in: " ++ (pooldir ++ "/" ++ dir_path ++ "control")
   writeFile (pooldir ++ "/" ++ dir_path ++ "control") (show info)
 
 toDebInfo :: String -> DebInfo
