@@ -33,7 +33,11 @@ debInfo config payload =
     Right archive = (arFromData payload)
     ArEntry {entryData = entry} = archive M.! "control.tar.gz"
     debinfo = toDebInfo $ getStrictControl entry
-    arch = debinfo M.! "Architecture"
-    pkg = debinfo M.! "Package"
+    arch = case M.lookup "Architecture" debinfo of
+      Nothing -> "NOARCH"
+      Just x -> x
+    pkg = case M.lookup "Package" debinfo of
+      Nothing -> "NOPKG"
+      Just x -> x
     pooldir = configPoolDir config
     path = arch ++ "/" ++ pkg ++ "/" ++ pkg ++ ".deb"
