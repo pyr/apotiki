@@ -55,13 +55,13 @@ For now the configuration is a serialized haskell structure:
 
 ```haskell
 ApotikiConfig {
-  keyPath = "/etc/apotiki.key", -- path to a PGP private key
-  architectures = ["amd64"],    -- list of supported architectures
-  component = "main",           -- debian release component
-  release = "precise",          -- debian release name
-  label = "Apotiki",            -- release label
-  origin = "Apotiki",           -- release origin
-  repoDir = "/srv/repo"         -- where packages live, expose via http
+  keyPath = "/etc/apotiki.key",      -- path to a PGP private key
+  architectures = ["amd64", "i386"], -- list of supported architectures
+  component = "main",                -- debian release component
+  release = "precise",               -- debian release name
+  label = "Apotiki",                 -- release label
+  origin = "Apotiki",                -- release origin
+  repoDir = "/srv/repo"              -- repository location, expose via http
 }
 ```
 The PGP private key you wish to use can be exported with:
