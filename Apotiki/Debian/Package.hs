@@ -12,13 +12,13 @@ import qualified Data.ByteString as B
 import qualified Data.Map as M
 
 writeToPool :: String -> (DebInfo, B.ByteString) -> IO ()
-writeToPool pooldir (info, payload) = do
+writeToPool repodir (info, payload) = do
   let path = info M.! "Filename"
   let dir_path = reverse $ snd $ break (== '/') $ reverse path
   putStrLn $ "found filename: " ++ path
-  createDirectoryIfMissing True (pooldir ++ "/" ++ dir_path)
-  B.writeFile (pooldir ++ "/" ++ path) payload
-  B.writeFile (pooldir ++ "/" ++ dir_path ++ "control") $ pack (show info)
+  createDirectoryIfMissing True (repodir ++ "/" ++ dir_path)
+  B.writeFile (repodir ++ "/" ++ path) payload
+  B.writeFile (repodir ++ "/" ++ dir_path ++ "control") $ pack (show info)
 
 toDebInfo :: String -> DebInfo
 toDebInfo input = output where Right output = ctlFromData $ pack $ input
@@ -36,4 +36,4 @@ debInfo config payload =
       Nothing -> "NOPKG"
       Just x -> x
     pooldir = configPoolDir config
-    path = arch ++ "/" ++ pkg ++ "/" ++ pkg ++ ".deb"
+    path = "pool/" ++ arch ++ "/" ++ pkg ++ "/" ++ pkg ++ ".deb"

@@ -4,6 +4,7 @@ import Apotiki.Debian.Release
 import Apotiki.Config
 import Data.Map (keys)
 import System.Environment
+import System.Directory
 import Control.Exception
 import Control.Monad (guard)
 import System.IO.Error (isDoesNotExistError)
@@ -19,6 +20,9 @@ main = do
   confdata <- readFile confpath
   let config = read confdata :: ApotikiConfig
   putStrLn "read config"
+
+  createDirectoryIfMissing True (configDistDir config)
+  createDirectoryIfMissing True (configPoolDir config)
 
   -- now load our view of the world
   old_release <- loadRelease $ configPoolDir config
@@ -39,6 +43,6 @@ main = do
   writeRelease config release
 
   -- write package to their destination
-  mapM_ (writeToPool $ configPoolDir config) $ zip debinfo contents
+  mapM_ (writeToPool $ configRepoDir config) $ zip debinfo contents
 
   putStrLn "done updating repository"

@@ -175,11 +175,11 @@ releaseMkDir distdir release component arch =
                                                             release,
                                                             component,
                                                             "binary-" ++ arch]
-releaseMkDirs ApotikiConfig {distDir = distdir,
+releaseMkDirs ApotikiConfig {repoDir = repodir,
                              architectures = archs,
                              release = release,
                              component = component} = do
-  mapM_ (releaseMkDir distdir release component) archs
+  mapM_ (releaseMkDir (repodir ++ "/dists") release component) archs
 
 writeRelease :: ApotikiConfig -> Release -> IO ()
 writeRelease config release = do

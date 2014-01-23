@@ -22,6 +22,9 @@ You operate a production environment and rely on software that is more recent th
 available on a standard Debian or Ubuntu distribution ? Apotiki helps you distribute
 software by creating a separate debian repository which you can add to your apt sources.
 
+Turns out there's already software available for this, such as [freight](https://github.com/rcrowley/freight),
+apotiki's angle is to work very fast for the most common use case.
+
 ## Companion software
 
 [fpm](https://github.com/jordansissel/fpm) is a great tool to build Debian packages with.
@@ -58,8 +61,7 @@ ApotikiConfig {
   release = "precise",          -- debian release name
   label = "Apotiki",            -- release label
   origin = "Apotiki",           -- release origin
-  poolDir = "/tmp/repo/pool",   -- where packages live
-  distDir = "/tmp/repo/dist"    -- where release description files live
+  repoDir = "/srv/repo"         -- where packages live, expose via http
 }
 ```
 The PGP private key you wish to use can be exported with:
