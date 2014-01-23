@@ -77,3 +77,6 @@ variable.
 
 apotiki only accepts a list of debian packages on the command line.
 
+## Caveats
+
+error handling is suboptimal to say the least. we'll get there.
