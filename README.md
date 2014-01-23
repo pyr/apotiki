@@ -1,20 +1,36 @@
 apotiki: a fast debian repository generator
 ===========================================
 
+![apotiki](http://i.imgur.com/3Jmupwb.jpg)
+
 apotiki generates debian repositories fast. its goal is
 to be a great companion to [fpm](https://github.com/jordansissel/fpm) and
-[jenkins](http://jenkins-ci.com).
+[jenkins](http://jenkins-ci.org).
 
 apotiki operates with the following features and constraints:
 
-* supports a single debian release
-* supports a single debian component
-* supports an arbitrary number of architectures which need to be preprovisionned
-* requires a valid PGP private key for signing
+* Supports a single debian release
+* Supports a single debian component
+* Supports an arbitrary number of architectures which need to be preprovisionned
+* Requires a valid PGP private key for signing
+
+## The Story
+
+You operate a production environment and rely on software that is more recent than is
+available on a standard Debian or Ubuntu distribution ? Apotiki helps you distribute
+software by creating a separate debian repository which you can add to your apt sources.
+
+## Companion software
+
+[fpm](https://github.com/jordansissel/fpm) is a great tool to build Debian packages with.
+It can produce packages from directories, gems, npm or pip libraries.
+
+[jenkins](http://jenkins-ci.org) or [travis-ci](http://travis-ci.com) can produce artifacts by running
+scripts.
 
 ## Building
 
-apotiki is a haskell program and relies on both the ghc compiler and
+Apotiki is a haskell program and relies on both the ghc compiler and
 cabal. They are probably already available in your platform of choice.
 
 Once cabal is installed, just run:
@@ -44,7 +60,7 @@ ApotikiConfig {
   distDir = "/tmp/repo/dist"    -- where release description files live
 }
 ```
-The PGP private key can you wish to use can be exported with:
+The PGP private key you wish to use can be exported with:
 
 ```
 gpg --export-secret-keys repository-key@your.domain > /etc/apotiki.key
