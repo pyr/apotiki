@@ -2,7 +2,9 @@ apotiki: a fast debian repository generator
 ===========================================
 
 ![apotiki](http://i.imgur.com/3Jmupwb.jpg)
+
 ([image source](http://commons.wikimedia.org/wiki/File:A_view_of_the_map_repository_at_The_National_Archives.jpg))
+
 apotiki generates debian repositories fast. its goal is
 to be a great companion to [fpm](https://github.com/jordansissel/fpm) and
 [jenkins](http://jenkins-ci.org).
