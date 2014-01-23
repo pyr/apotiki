@@ -9,6 +9,7 @@ import System.IO
 import Data.List
 import Data.Function
 import Data.ByteString.Char8 (pack,unpack)
+import qualified System.IO.Strict as SIO
 import qualified Codec.Compression.GZip as Z
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
@@ -29,9 +30,10 @@ unroll input = (concat $ intersperse "\n\n" $ map unrollMap input) ++ "\n"
 pkgControl pooldir arch pkg = do
   let path = pooldir ++ "/" ++ arch ++ "/" ++ pkg ++ "/control"
   fd <- openFile path ReadMode
-  control_data <- hGetContents fd
+  control_data <- SIO.hGetContents fd
+  let output = (read control_data :: DebInfo)
   hClose fd
-  return (read control_data :: DebInfo)
+  return output
 
 archRelease pooldir arch = do
   let path = pooldir ++ "/" ++ arch

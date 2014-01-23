@@ -26,7 +26,7 @@ executable apotiki
                        zlib >= 0.5.4.1, tar >= 0.4.0.1,
                        attoparsec >= 0.10.4.0, directory >= 1.2.0.1,
                        openpgp-asciiarmor >= 0.1, openpgp-crypto-api >= 0.6.3,
-                       binary >= 0.7.1.0, openpgp >= 0.6.1,
+                       binary >= 0.7.1.0, openpgp >= 0.6.1, strict >= 0.3.2,
                        crypto-api >= 0.12.2.2, old-time >= 1.1.0.1
                        
   -- hs-source-dirs:      
