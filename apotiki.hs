@@ -59,8 +59,6 @@ insertPackages config debfiles = do
   putStrLn $ "got previous release: "  ++ (show $ length $ keys old_release)
 
   -- process new artifacts from command line
-  command:debfiles <- getArgs
-
   contents <- mapM B.readFile debfiles
   let debinfo = map (debInfo config) contents
   let archs = configArchs config
