@@ -13,6 +13,7 @@ import Network.HTTP.Types.Status
 import Web.Scotty
 import Data.Text (pack)
 import Data.Text.Lazy (unpack)
+import Data.ByteString.Lazy (toChunks)
 import Network.Wai.Middleware.RequestLogger
 import Network.Wai.Parse
 
@@ -24,6 +25,9 @@ import qualified Data.ByteString as B
 
 import Network.Wai.Middleware.Static
 
+setupRepo config = do
+  createDirectoryIfMissing True (configDistDir config)
+  createDirectoryIfMissing True (configPoolDir config)
 
 main :: IO ()
 main = do
@@ -42,30 +46,30 @@ runCommand config [] = runCommand config ["help"]
 runCommand config ("help":debfiles) = do
   putStrLn "usage: apotiki {web, insert} [packages]"
 
-runCommand config ("web":debfiles) = do
-
+runCommand config ("web":_) = do
+  setupRepo config
   scotty 8000 $ do
     middleware $ staticPolicy (noDots >-> addBase "static")
     get "/repo" $ do
       repo <- liftIO (releaseJSON $ configPoolDir config)
       json repo
     post "/repo" $ do
-      debfiles <- files
+      indata <- files
+      let debfiles = [B.concat $ toChunks $ fileContent fi | (_,fi) <- indata]
+      liftIO $ insertPackages config debfiles
       json $ object $ [ "status" .= ("repository updated" :: String)]
 
-runCommand config ("insert":debfiles) = insertPackages config debfiles
+runCommand config ("insert":filenames) = do
+  setupRepo config
+  debfiles <- mapM B.readFile filenames
+  insertPackages config debfiles
 
 insertPackages config debfiles = do
-  createDirectoryIfMissing True (configDistDir config)
-  createDirectoryIfMissing True (configPoolDir config)
-
   -- now load our view of the world
   old_release <- loadRelease $ configPoolDir config
   putStrLn $ "got previous release: "  ++ (show $ length $ keys old_release)
 
-  -- process new artifacts from command line
-  contents <- mapM B.readFile debfiles
-  let debinfo = map (debInfo config) contents
+  let debinfo = map (debInfo config) debfiles
   let archs = configArchs config
   let pending_release = releaseFrom archs debinfo
 
@@ -77,6 +81,6 @@ insertPackages config debfiles = do
   writeRelease config release
 
   -- write package to their destination
-  mapM_ (writeToPool $ configRepoDir config) $ zip debinfo contents
+  mapM_ (writeToPool $ configRepoDir config) $ zip debinfo debfiles
 
   putStrLn "done updating repository"
