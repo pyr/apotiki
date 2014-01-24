@@ -7,14 +7,12 @@ app.controller('Apotiki', function($scope, $routeParams, $location, $http) {
 
     $scope.refresh = function () {
         $http.get('/repo').success(function (data) {
-           $scope.repo = data;
-           for (var k in data) {
-             if (k != "all") {
-               for (var subk in data[k]) {
-                 $scope.repolist.push(data[k][subk]);
-               }
-             }
-           }
+            $scope.repo = data;
+            for (var k in data) {
+                for (var subk in data[k]) {
+                    $scope.repolist.push(data[k][subk]);
+                }
+            }
         });
     };
 
