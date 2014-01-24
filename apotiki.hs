@@ -50,6 +50,8 @@ runCommand config ("web":_) = do
   setupRepo config
   scotty 8000 $ do
     middleware $ staticPolicy (noDots >-> addBase "static")
+    get "/" $ do
+      redirect "/index.html"
     get "/repo" $ do
       repo <- liftIO (releaseJSON $ configPoolDir config)
       json repo
@@ -57,7 +59,7 @@ runCommand config ("web":_) = do
       indata <- files
       let debfiles = [B.concat $ toChunks $ fileContent fi | (_,fi) <- indata]
       liftIO $ insertPackages config debfiles
-      json $ object $ [ "status" .= ("repository updated" :: String)]
+      redirect "/index.html"
 
 runCommand config ("insert":filenames) = do
   setupRepo config
