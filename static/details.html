@@ -34,16 +34,26 @@
       <div class="col-md-10">{{repo[arch][name]['Priority']}}</div>
     </div>
     <div class="row">
+      <div class="col-md-2"><strong>Depends</strong></div>
+      <div class="col-md-10">{{repo[arch][name]['Depends']}}</div>
+    </div>
+    <div class="row">
       <div class="col-md-2"><strong>Homepage</strong></div>
-      <div class="col-md-10">{{repo[name]['Homepage']}}</div>
+      <div class="col-md-10"><a href="{{repo[arch][name]['Homepage']}}">{{repo[arch][name]['Homepage']}}</a></div>
     </div>
     <div class="row">
       <div class="col-md-2"><strong>Vendor</strong></div>
-      <div class="col-md-10">{{repo[name]['Vendor']}}</div>
+      <div class="col-md-10">{{repo[arch][name]['Vendor']}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"><strong>Section</strong></div>
+      <div class="col-md-10">{{repo[arch][name]['Section']}}</div>
     </div>
     <div class="row">
       <div class="col-md-2"><strong>Description</strong></div>
-      <div class="col-md-10" ng-bind="repo[name]['Description']"></div>
+      <div class="col-md-10">
+        <pre ng-bind="repo[arch][name]['Description']"></pre>
+      </div>
     </div>
   </div>
   
