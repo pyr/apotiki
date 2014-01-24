@@ -1,4 +1,4 @@
-module Apotiki.Utils (strip) where
+module System.Apotiki.Utils (strip) where
 import Data.List
 
 -- inspired by MissingH

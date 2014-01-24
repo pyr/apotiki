@@ -1,10 +1,10 @@
-module Apotiki.Debian.Package where
-import Apotiki.Ar
-import Apotiki.Tar
-import Apotiki.FileInfo
-import Apotiki.Utils
-import Apotiki.Config
-import Apotiki.Debian.Control
+module System.Apotiki.Debian.Package where
+import System.Apotiki.Ar
+import System.Apotiki.Tar
+import System.Apotiki.FileInfo
+import System.Apotiki.Utils
+import System.Apotiki.Config
+import System.Apotiki.Debian.Control
 import Data.List
 import System.Directory
 import Data.ByteString.Char8 (pack, unpack)

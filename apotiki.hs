@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Main where
-import Apotiki.Debian.Package
-import Apotiki.Debian.Release
-import Apotiki.Config
+import System.Apotiki.Debian.Package
+import System.Apotiki.Debian.Release
+import System.Apotiki.Config
 import Data.Map (keys)
 import System.Environment
 import System.Directory

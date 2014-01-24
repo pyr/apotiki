@@ -1,5 +1,5 @@
-module Apotiki.Debian.Control (DebInfo, ctlFromData) where
-import Apotiki.Utils
+module System.Apotiki.Debian.Control (DebInfo, ctlFromData) where
+import System.Apotiki.Utils
 import Data.Attoparsec.Combinator (manyTill, many1)
 import Data.ByteString.Char8 (pack, unpack)
 import Data.List (intersperse)

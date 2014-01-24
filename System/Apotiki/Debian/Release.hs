@@ -1,9 +1,9 @@
-module Apotiki.Debian.Release where
-import Apotiki.Debian.Package
-import Apotiki.Debian.Control
-import Apotiki.FileInfo
-import Apotiki.Config
-import Apotiki.Signature
+module System.Apotiki.Debian.Release where
+import System.Apotiki.Debian.Package
+import System.Apotiki.Debian.Control
+import System.Apotiki.FileInfo
+import System.Apotiki.Config
+import System.Apotiki.Signature
 import System.Directory
 import System.IO
 import Data.List

@@ -1,4 +1,4 @@
-module Apotiki.Ar (arFromData, arFromFile, ArEntry (..)) where
+module System.Apotiki.Ar (arFromData, arFromFile, ArEntry (..)) where
 import Data.Attoparsec.Combinator (manyTill)
 import Data.ByteString.Char8 (pack, unpack)
 import qualified Data.Map as M

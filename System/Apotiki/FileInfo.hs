@@ -1,4 +1,4 @@
-module Apotiki.FileInfo (sha256sum, sha1sum, md5sum, fileinfo) where
+module System.Apotiki.FileInfo (sha256sum, sha1sum, md5sum, fileinfo) where
 import qualified Data.ByteString as B
 import qualified Crypto.Hash.SHA256 as SHA256
 import qualified Crypto.Hash.SHA1 as SHA1

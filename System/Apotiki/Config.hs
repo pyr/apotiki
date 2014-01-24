@@ -1,4 +1,4 @@
-module Apotiki.Config where
+module System.Apotiki.Config where
 
 data ApotikiConfig = ApotikiConfig {
   keyPath :: String,

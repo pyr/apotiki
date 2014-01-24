@@ -2,8 +2,22 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                apotiki
-version:             0.5.0
-synopsis:            debian repository builder
+version:             0.5.1
+synopsis:            a faster debian repository
+description:
+    apotiki generates debian repositories fast. its goal is
+    to be a great companion to fpm and jenkins.
+    .
+    apotiki operates with the following features and constraints:
+    .
+    - Supports a single debian release
+    .
+    - Supports a single debian component
+    .
+    - Supports an arbitrary number of architectures which need to be preprovisionned
+    .
+    - Requires a valid PGP private key for signing
+
 -- description:         
 homepage:            https://github.com/pyr/apotiki
 license:             MIT
@@ -15,6 +29,28 @@ category:            System
 build-type:          Simple
 -- extra-source-files:  
 cabal-version:       >=1.10
+extra-source-files:  README.md
+                     System/Apotiki/Debian/*.hs
+                     System/Apotiki/*.hs
+                     static/*.js static/*.html
+
+library
+  exposed-modules:     System.Apotiki.Ar
+                       System.Apotiki.Debian.Package
+                       System.Apotiki.Debian.Release
+  build-depends:       base >=4.6 && <4.7, bytestring >= 0.10.0.2,
+                       containers >= 0.5.0.0, cryptohash >= 0.9.1,
+                       zlib >= 0.5.4.1, tar >= 0.4.0.1, aeson >= 0.6.2.1,
+                       attoparsec >= 0.10.4.0, directory >= 1.2.0.1,
+                       openpgp-asciiarmor >= 0.1, openpgp-crypto-api >= 0.6.3,
+                       binary >= 0.7.1.0, openpgp >= 0.6.1, strict >= 0.3.2,
+                       crypto-api == 0.12.2.2, old-time >= 1.1.0.1,
+                       scotty >= 0.6.2, wai-extra >= 2.0.3.1, text >= 1.0.0.1,
+                       http-types >= 0.8.3, transformers >= 0.3.0.0,
+                       transformers >= 0.3.0.0, wai-middleware-static >= 0.4.0.2
+  default-language:    Haskell2010
+  -- other-modules:       
+  -- other-extensions:    
 
 executable apotiki
   main-is: apotiki.hs

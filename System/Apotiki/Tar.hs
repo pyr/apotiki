@@ -1,4 +1,4 @@
-module Apotiki.Tar (getControl, getStrictControl) where
+module System.Apotiki.Tar (getControl, getStrictControl) where
 import Data.List
 import qualified Data.Map as M
 import qualified Codec.Archive.Tar as Tar

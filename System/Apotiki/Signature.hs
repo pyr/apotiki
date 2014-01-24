@@ -1,4 +1,4 @@
-module Apotiki.Signature (sign_msg, get_key) where
+module System.Apotiki.Signature (sign_msg, get_key) where
 import System.Time (getClockTime, ClockTime(..))
 import Crypto.Random
 import Data.OpenPGP
