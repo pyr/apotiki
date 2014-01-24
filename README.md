@@ -1,5 +1,5 @@
-apotiki: a fast debian repository generator
-===========================================
+apotiki: a faster debian repository
+===================================
 
 ![apotiki](http://i.imgur.com/3Jmupwb.jpg)
 
