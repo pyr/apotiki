@@ -1,0 +1,9 @@
+ApotikiConfig {
+  keyPath = "/srv/repo/key.gpg",
+  architectures = ["amd64", "i386"],
+  component = "main",
+  release = "precise",
+  label = "Apotiki",
+  origin = "Apotiki",
+  repoDir = "/srv/repo"
+}
