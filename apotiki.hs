@@ -4,6 +4,7 @@ module Main where
 import System.Apotiki.Debian.Package
 import System.Apotiki.Debian.Release
 import System.Apotiki.Config
+import System.Apotiki.Templates
 import Data.Map (keys)
 import System.Environment
 import System.Directory
@@ -22,6 +23,7 @@ import Control.Monad (guard)
 import System.IO.Error (isDoesNotExistError)
 import Control.Monad.IO.Class (liftIO)
 import qualified Data.ByteString as B
+import qualified Data.Text.Lazy as T
 
 import Network.Wai.Middleware.Static
 
@@ -49,7 +51,16 @@ runCommand config ("help":debfiles) = do
 runCommand config ("web":_) = do
   setupRepo config
   scotty 8000 $ do
-    middleware $ staticPolicy (noDots >-> addBase "static")
+    get "/apotiki.js" $ do
+      html $ T.pack jsApp
+    get "/index.html" $ do
+      html $ T.pack indexHtml
+    get "/listing.html" $ do
+      html $ T.pack listingHtml
+    get "/details.html" $ do
+      html $ T.pack detailsHtml
+    get "/post.html" $ do
+      html $ T.pack postHtml
     get "/" $ do
       redirect "/index.html"
     get "/repo" $ do
