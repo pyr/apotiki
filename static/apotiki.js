@@ -28,5 +28,6 @@ app.config(function($routeProvider) {
     $routeProvider
         .when('/repo', {templateUrl: 'listing.html', controller: 'Apotiki'})
         .when('/repo/:arch/:name', {templateUrl: 'details.html', controller: 'Apotiki'})
+        .when('/post', {templateUrl: 'post.html'})
         .otherwise({redirectTo: '/repo'});
 });

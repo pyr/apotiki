@@ -34,10 +34,15 @@ main = do
         Right val -> val
   confdata <- readFile confpath
   let config = read confdata :: ApotikiConfig
-  command:debfiles <- getArgs
-  runCommand command config debfiles
+  args <- getArgs
+  runCommand config args
 
-runCommand "web" config _ = do
+runCommand config [] = runCommand config ["help"]
+
+runCommand config ("help":debfiles) = do
+  putStrLn "usage: apotiki {web, insert} [packages]"
+
+runCommand config ("web":debfiles) = do
 
   scotty 8000 $ do
     middleware $ staticPolicy (noDots >-> addBase "static")
@@ -48,7 +53,7 @@ runCommand "web" config _ = do
       debfiles <- files
       json $ object $ [ "status" .= ("repository updated" :: String)]
 
-runCommand "insert" config debfiles = insertPackages config debfiles
+runCommand config ("insert":debfiles) = insertPackages config debfiles
 
 insertPackages config debfiles = do
   createDirectoryIfMissing True (configDistDir config)
