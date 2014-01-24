@@ -1,3 +1,31 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <title>apotiki debian repository</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+
+  <body ng-app="repo">
+    <div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">apotiki</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/index.html#list">Listing</a></li>
+            <li><a href="/post.html">Submit</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+      
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+
 <div class="panel panel-default">
   
   <div class="panel-heading">
@@ -5,10 +33,10 @@
   </div>
   
   <div class="panel-body">
-    <form method="POST" action="/repo" role="form">
+    <form method="POST" action="/repo" enctype="multipart/form-data" role="form">
       <div class="form-group">
         <label>Choose package</label>
-        <input type="file" id="file">
+        <input type="file" name="file" id="file">
         <p class="help-block">
           Package file will overwrite any previous versions.
         </p>
@@ -17,3 +45,14 @@
     </form>
   </div>
 </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+  </body>
+  
+</html>
+
+
