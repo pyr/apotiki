@@ -9,6 +9,7 @@ import System.IO
 import Data.List
 import Data.Function
 import Data.ByteString.Char8 (pack,unpack)
+import Data.Aeson
 import qualified System.IO.Strict as SIO
 import qualified Codec.Compression.GZip as Z
 import qualified Data.ByteString as B
@@ -42,11 +43,17 @@ archRelease pooldir arch = do
   controls <- mapM (pkgControl pooldir arch) pkgs
   return (M.fromList $ zip pkgs controls)
 
+loadRelease :: String -> IO (Release)
 loadRelease pooldir = do
   entries <- getDirectoryContents pooldir
   let archs  = filter ((/= '.') . head) entries
   arch_releases <- mapM (archRelease pooldir) archs
   return (M.fromList $ zip archs arch_releases)
+
+releaseJSON pooldir = do
+  release <- loadRelease pooldir
+  let encoded = release
+  return encoded
 
 same_arch x y = (fst x) == (fst y)
 

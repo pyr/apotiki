@@ -27,25 +27,3 @@ sign_msg  keys time rng payload =
     options = [("Version", "OpenPrivacy 0.99"), ("Hash", "SHA256")]
     encoded_sig = Binary.encode sig
     armor = Armor.Armor Armor.ArmorSignature options encoded_sig
-
-
--- test2 keypath path = do
---   (keys, (time, rng)) <- get_key keypath
---   payload <- B.readFile path
---   let armor = sign_msg keys time rng payload
---   putStrLn $ armor
-
--- test keypath path = do
---   time <- getClockTime
---   rng <- newGenIO :: IO SystemRandom
---   let TOD t _ = time
---   let timestamp = (fromIntegral t)
---   keys <- Binary.decodeFile keypath
---   content <- B.readFile path
---   let pgp_payload = LiteralDataPacket 'b' "" (fromIntegral t) content
---   let input = (DataSignature pgp_payload [])
---   let (DataSignature _ [sig], _) = PGP.sign keys input SHA256 [] timestamp rng
---   let options = [("Version", "OpenPrivacy 0.99"), ("Hash", "SHA256")]
---   let encoded_sig = Binary.encode sig
---   let armor = Armor.Armor Armor.ArmorSignature options encoded_sig
---   return (BS.unpack $ Armor.encode [armor])

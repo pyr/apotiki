@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 import Apotiki.Debian.Package
 import Apotiki.Debian.Release
@@ -6,9 +8,22 @@ import Data.Map (keys)
 import System.Environment
 import System.Directory
 import Control.Exception
+
+import Network.HTTP.Types.Status
+import Web.Scotty
+import Data.Text (pack)
+import Data.Text.Lazy (unpack)
+import Network.Wai.Middleware.RequestLogger
+import Network.Wai.Parse
+
+import Data.Aeson (object, (.=))
 import Control.Monad (guard)
 import System.IO.Error (isDoesNotExistError)
+import Control.Monad.IO.Class (liftIO)
 import qualified Data.ByteString as B
+
+import Network.Wai.Middleware.Static
+
 
 main :: IO ()
 main = do
@@ -19,8 +34,23 @@ main = do
         Right val -> val
   confdata <- readFile confpath
   let config = read confdata :: ApotikiConfig
-  putStrLn "read config"
+  command:debfiles <- getArgs
+  runCommand command config debfiles
 
+runCommand "web" config _ = do
+
+  scotty 8000 $ do
+    middleware $ staticPolicy (noDots >-> addBase "static")
+    get "/repo" $ do
+      repo <- liftIO (releaseJSON $ configPoolDir config)
+      json repo
+    post "/repo" $ do
+      debfiles <- files
+      json $ object $ [ "status" .= ("repository updated" :: String)]
+
+runCommand "insert" config debfiles = insertPackages config debfiles
+
+insertPackages config debfiles = do
   createDirectoryIfMissing True (configDistDir config)
   createDirectoryIfMissing True (configPoolDir config)
 
@@ -29,7 +59,8 @@ main = do
   putStrLn $ "got previous release: "  ++ (show $ length $ keys old_release)
 
   -- process new artifacts from command line
-  debfiles <- getArgs
+  command:debfiles <- getArgs
+
   contents <- mapM B.readFile debfiles
   let debinfo = map (debInfo config) contents
   let archs = configArchs config

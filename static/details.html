@@ -1,0 +1,50 @@
+<div class="panel panel-default">
+  
+  <div class="panel-heading">
+    Package: {{repo[arch][name]['Package']}}
+  </div>
+  
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-2"><strong>Package</strong></div>
+      <div class="col-md-10">{{repo[arch][name]['Package']}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"><strong>Version</strong></div>
+      <div class="col-md-10">{{repo[arch][name]['Version']}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"><strong>Architecture</strong></div>
+      <div class="col-md-10">{{repo[arch][name]['Architecture']}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"><strong>Maintainer</strong></div>
+      <div class="col-md-10">{{repo[arch][name]['Maintainer']}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"><strong>License</strong></div>
+      <div class="col-md-10">{{repo[arch][name]['License']}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"><strong>Installed Size</strong></div>
+      <div class="col-md-10">{{repo[arch][name]['Installed-Size']}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"><strong>Priority</strong></div>
+      <div class="col-md-10">{{repo[arch][name]['Priority']}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"><strong>Homepage</strong></div>
+      <div class="col-md-10">{{repo[name]['Homepage']}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"><strong>Vendor</strong></div>
+      <div class="col-md-10">{{repo[name]['Vendor']}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"><strong>Description</strong></div>
+      <div class="col-md-10" ng-bind="repo[name]['Description']"></div>
+    </div>
+  </div>
+  
+</div>
