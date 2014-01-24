@@ -75,6 +75,11 @@ variable.
 
 ## Running
 
+apotiki has two modes of operation, try not to mix the two too much:
+
+* `apotiki insert`: pushes a list of packages, given on the commnad line to the repo 
+* `apotiki web`: start up a web service on port 8000 to display the repository and accept new packages
+
 apotiki only accepts a list of debian packages on the command line.
 
 ## Caveats
