@@ -49,16 +49,21 @@ assuming your package file is `package-foo.deb`
 curl -X POST -F "package=@/path/to/package-foo.deb" http://repo-host:8000/repo
 ```
 
-## Building
+## Installing
 
 Apotiki is a haskell program and relies on both the ghc compiler and
 cabal. They are probably already available in your platform of choice.
+for instance, on debian based systems, just run
+`apt-get install cabal-install`.
 
 Once cabal is installed, just run:
 
 ```bash
-cabal install
+cabal update
+cabal install apotiki
 ```
+
+## Building
 
 Alternatively, you can build apotiki with docker. Just run:
 
@@ -68,10 +73,6 @@ sudo docker build .
 
 The resulting container will have the built cabal executable.
 
-## Installing
-
-You can either run `cabal install` locally or distribute the built
-executable available in `dist/build/apotiki/apotiki`.
 
 ## Configuring
 
