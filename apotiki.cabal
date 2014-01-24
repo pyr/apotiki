@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                apotiki
-version:             0.5.1
+version:             0.5.2
 synopsis:            a faster debian repository
 description:
     apotiki generates debian repositories fast. its goal is
@@ -32,7 +32,6 @@ cabal-version:       >=1.10
 extra-source-files:  README.md
                      System/Apotiki/Debian/*.hs
                      System/Apotiki/*.hs
-                     static/*.js static/*.html
 
 library
   exposed-modules:     System.Apotiki.Ar
