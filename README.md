@@ -60,6 +60,14 @@ Once cabal is installed, just run:
 cabal install
 ```
 
+Alternatively, you can build apotiki with docker. Just run:
+
+```
+sudo docker build .
+```
+
+The resulting container will have the built cabal executable.
+
 ## Installing
 
 You can either run `cabal install` locally or distribute the built
