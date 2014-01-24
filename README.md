@@ -33,6 +33,22 @@ It can produce packages from directories, gems, npm or pip libraries.
 [jenkins](http://jenkins-ci.org) or [travis-ci](http://travis-ci.com) can produce artifacts by running
 scripts.
 
+## Using
+
+apotiki has two modes of operation, try not to mix the two too much:
+
+* `apotiki insert`: pushes a list of packages, given on the command line to the repo 
+* `apotiki web`: start up a web service on port 8000 to display the repository and accept new packages
+
+Running apotiki with no arguments or `help` will tell you a bit about usage.
+
+If you wish to submit packages to the repository with curl here is the relevant command line
+assuming your package file is `package-foo.deb`
+
+```bash
+curl -X POST -F "package=@/path/to/package-foo.deb" http://repo-host:8000/repo
+```
+
 ## Building
 
 Apotiki is a haskell program and relies on both the ghc compiler and
@@ -41,7 +57,7 @@ cabal. They are probably already available in your platform of choice.
 Once cabal is installed, just run:
 
 ```bash
-cabal build
+cabal install
 ```
 
 ## Installing
@@ -73,15 +89,6 @@ gpg --export-secret-keys repository-key@your.domain > /etc/apotiki.key
 The config file path can be controlled with the `APOTIKI_CONFIG` environment
 variable.
 
-## Running
-
-apotiki has two modes of operation, try not to mix the two too much:
-
-* `apotiki insert`: pushes a list of packages, given on the commnad line to the repo 
-* `apotiki web`: start up a web service on port 8000 to display the repository and accept new packages
-
-apotiki only accepts a list of debian packages on the command line.
-
 ## Caveats
 
-error handling is suboptimal to say the least. we'll get there.
+Error handling is suboptimal to say the least. we'll get there.
