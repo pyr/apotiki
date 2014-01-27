@@ -92,7 +92,7 @@ ApotikiConfig {
 The PGP private key you wish to use can be exported with:
 
 ```
-gpg --export-secret-keys repository-key@your.domain > /etc/apotiki.key
+gpg -a --export-secret-keys repository-key@your.domain > /etc/apotiki.key
 ```
 
 The config file path can be controlled with the `APOTIKI_CONFIG` environment
