@@ -4,6 +4,7 @@ import System.Apotiki.Tar
 import System.Apotiki.FileInfo
 import System.Apotiki.Utils
 import System.Apotiki.Config
+import System.Apotiki.Logger
 import System.Apotiki.Debian.Control
 import Data.List
 import System.Directory
@@ -11,11 +12,11 @@ import Data.ByteString.Char8 (pack, unpack)
 import qualified Data.ByteString as B
 import qualified Data.Map as M
 
-writeToPool :: String -> (DebInfo, B.ByteString) -> IO ()
-writeToPool repodir (info, payload) = do
+writeToPool :: LogChan -> String -> (DebInfo, B.ByteString) -> IO ()
+writeToPool logger repodir (info, payload) = do
   let path = info M.! "Filename"
   let dir_path = reverse $ snd $ break (== '/') $ reverse path
-  putStrLn $ "found filename: " ++ path
+  log_info logger $ "found filename: " ++ path
   createDirectoryIfMissing True (repodir ++ "/" ++ dir_path)
   B.writeFile (repodir ++ "/" ++ path) payload
   B.writeFile (repodir ++ "/" ++ dir_path ++ "control") $ pack (show info)

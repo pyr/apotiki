@@ -35,8 +35,3 @@ ctlFromFile :: String -> IO (Either String DebInfo)
 ctlFromFile path = do
   content <- B.readFile path
   return (ctlFromData content)
-
-test :: IO ()
-test = do
-  info <- ctlFromFile "/tmp/control"
-  putStrLn $ show $ info

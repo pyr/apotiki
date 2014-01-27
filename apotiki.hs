@@ -5,6 +5,7 @@ import System.Apotiki.Debian.Package
 import System.Apotiki.Debian.Release
 import System.Apotiki.Config
 import System.Apotiki.Templates
+import System.Apotiki.Logger
 import Data.Map (keys)
 import System.Environment
 import System.Directory
@@ -40,15 +41,17 @@ main = do
         Right val -> val
   confdata <- readFile confpath
   let config = read confdata :: ApotikiConfig
+  logger <- log_start (configLogPath config)
+  log_info logger "starting up"
   args <- getArgs
-  runCommand config args
+  runCommand logger config args
 
-runCommand config [] = runCommand config ["help"]
+runCommand logger config [] = runCommand logger config ["help"]
 
-runCommand config ("help":debfiles) = do
+runCommand logger config ("help":debfiles) = do
   putStrLn "usage: apotiki {web, insert} [packages]"
 
-runCommand config ("web":_) = do
+runCommand logger config ("web":_) = do
   setupRepo config
   scotty 8000 $ do
     get "/apotiki.js" $ do
@@ -69,31 +72,31 @@ runCommand config ("web":_) = do
     post "/repo" $ do
       indata <- files
       let debfiles = [B.concat $ toChunks $ fileContent fi | (_,fi) <- indata]
-      liftIO $ insertPackages config debfiles
+      liftIO $ insertPackages logger config debfiles
       redirect "/index.html"
 
-runCommand config ("insert":filenames) = do
+runCommand logger config ("insert":filenames) = do
   setupRepo config
   debfiles <- mapM B.readFile filenames
-  insertPackages config debfiles
+  insertPackages logger config debfiles
 
-insertPackages config debfiles = do
+insertPackages logger config debfiles = do
   -- now load our view of the world
   old_release <- loadRelease $ configPoolDir config
-  putStrLn $ "got previous release: "  ++ (show $ length $ keys old_release)
+  log_info logger $ "got previous release: "  ++ (show $ length $ keys old_release)
 
   let debinfo = map (debInfo config) debfiles
   let archs = configArchs config
   let pending_release = releaseFrom archs debinfo
 
-  putStrLn $ "got pending release: "  ++ (show $ length $ keys pending_release)
+  log_info logger $ "got pending release: "  ++ (show $ length $ keys pending_release)
 
   -- merge old and new release
   let release = updateRelease archs old_release pending_release
 
-  writeRelease config release
+  writeRelease logger config release
 
   -- write package to their destination
-  mapM_ (writeToPool $ configRepoDir config) $ zip debinfo debfiles
+  mapM_ (writeToPool logger $ configRepoDir config) $ zip debinfo debfiles
 
-  putStrLn "done updating repository"
+  log_info logger "done updating repository"

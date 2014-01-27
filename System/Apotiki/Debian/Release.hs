@@ -3,6 +3,7 @@ import System.Apotiki.Debian.Package
 import System.Apotiki.Debian.Control
 import System.Apotiki.FileInfo
 import System.Apotiki.Config
+import System.Apotiki.Logger
 import System.Apotiki.Signature
 import System.Directory
 import System.IO
@@ -188,14 +189,14 @@ releaseMkDirs ApotikiConfig {repoDir = repodir,
                              component = component} = do
   mapM_ (releaseMkDir (repodir ++ "/dists") release component) archs
 
-writeRelease :: ApotikiConfig -> Release -> IO ()
-writeRelease config release = do
+writeRelease :: LogChan -> ApotikiConfig -> Release -> IO ()
+writeRelease logger config release = do
   releaseMkDirs config
   let pkgs = map (getPkg config) (M.assocs release)
   release_files <- mapM (writeArchRelease config) (M.assocs release)
-  putStrLn $ "wrote release files: " ++ (show $ length release_files)
+  log_info logger $ "wrote release files: " ++ (show $ length release_files)
   pkg_files <- mapM (writePackages config) pkgs
-  putStrLn $ "wrote package files: " ++ (show $ length pkg_files)
+  log_info logger $ "wrote package files: " ++ (show $ length pkg_files)
   pkg_gz_files <- mapM (writeGzPackages config) pkgs
-  putStrLn $ "wrote package compressed files: " ++ (show $ length pkg_gz_files)
+  log_info logger $ "wrote package compressed files: " ++ (show $ length pkg_gz_files)
   writeGlobalRelease config $ concat [release_files, pkg_files, pkg_gz_files]

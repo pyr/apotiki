@@ -7,7 +7,8 @@ data ApotikiConfig = ApotikiConfig {
   release :: String,
   label   :: String,
   origin  :: String,
-  repoDir :: String
+  repoDir :: String,
+  logPath :: String
   } deriving (Show, Read)
 
 configKeyPath ApotikiConfig { keyPath = x } = x
@@ -19,3 +20,4 @@ configDistDir ApotikiConfig { repoDir = x } = x ++ "/dists"
 configRepoDir ApotikiConfig { repoDir = x } = x
 configOrigin ApotikiConfig { origin = x } = x
 configLabel ApotikiConfig { label = x } = x
+configLogPath ApotikiConfig { logPath = x } = x
