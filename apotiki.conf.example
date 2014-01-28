@@ -1,9 +1,13 @@
-ApotikiConfig {
-  keyPath = "/srv/repo/key.gpg",
-  architectures = ["amd64", "i386"],
-  component = "main",
-  release = "precise",
-  label = "Apotiki",
-  origin = "Apotiki",
-  repoDir = "/srv/repo"
-}
+architectures: i386 amd64
+component: main
+release: precise
+label: Apotiki
+origin: Apotiki
+repo: /srv/apotiki
+logfile: /var/log/apotiki.log
+pgp-key:
+  -----BEGIN PGP PRIVATE KEY BLOCK-----
+  Version: GnuPG v2.0.22 (GNU/Linux)
+  
+  [...]
+  -----END PGP PRIVATE KEY BLOCK-----

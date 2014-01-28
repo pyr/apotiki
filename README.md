@@ -86,7 +86,7 @@ component: main
 release: precise
 label: Apotiki
 origin: Apotiki
-repo: /tmp/repo
+repo: /srv/apotiki
 logfile: STDOUT
 pgp-key:
   -----BEGIN PGP PRIVATE KEY BLOCK-----
