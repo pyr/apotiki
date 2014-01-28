@@ -100,7 +100,7 @@ pgp-key:
 * `architectures`: list of supported architectures in your repo
 * `component`: name of the release component, a single component is supported for now
 * `release`: name of the debian release you wish to expose
-* `label` and `origin`: Debian repository format details, see [[https://wiki.debian.org/RepositoryFormat#Label]]
+* `label` and `origin`: Debian repository format details, see https://wiki.debian.org/RepositoryFormat#Label
 * `repo`: directory where the repo will live
 * `logfile`: either *STDOUT* for console logging or a path to log to
 * `pgp-key`: ascii-armored export of the PGP key to sign the repo with
