@@ -81,6 +81,8 @@ separated format, no comment lines are allowed and all configuration
 keys are expected to be downcased.
 
 ```
+host: 127.0.0.1
+port: 4000
 architectures: i386 amd64
 component: main
 release: precise
@@ -97,6 +99,8 @@ pgp-key:
                                                             
 ```
 
+* `host`: IP to listen on for web service
+* `port`: port to listen on for input web service
 * `architectures`: list of supported architectures in your repo
 * `component`: name of the release component, a single component is supported for now
 * `release`: name of the debian release you wish to expose

@@ -3,9 +3,14 @@ import System.Apotiki.Utils
 import Data.Attoparsec.Combinator (manyTill, many1)
 import Data.ByteString.Char8 (pack, unpack)
 import Data.List (intersperse)
+import Network.Wai.Handler.Warp(HostPreference(..), settingsHost, settingsPort)
 import qualified Data.Map as M
 import qualified Data.ByteString as B
 import qualified Data.Attoparsec.ByteString as P
+
+import Web.Scotty
+import Data.Default (def)
+import Network.Wai.Handler.Warp (settingsPort)
 
 data ApotikiConfig = ApotikiConfig {
   keyPath :: String,
@@ -15,8 +20,9 @@ data ApotikiConfig = ApotikiConfig {
   label   :: String,
   origin  :: String,
   repoDir :: String,
-  logPath :: String
-  } deriving (Show, Read)
+  logPath :: String,
+  waiOpts :: Options
+  }
 
 configKeyPath ApotikiConfig { keyPath = x } = x
 configArchs ApotikiConfig { architectures = x } = x
@@ -28,6 +34,7 @@ configRepoDir ApotikiConfig { repoDir = x } = x
 configOrigin ApotikiConfig { origin = x } = x
 configLabel ApotikiConfig { label = x } = x
 configLogPath ApotikiConfig { logPath = x } = x
+configWai ApotikiConfig { waiOpts = x } = x
 
 type ConfigMap = M.Map String String
 
@@ -77,6 +84,21 @@ parseList :: String -> [String]
 parseList input = if input == "" then [] else (h:(parseList $ strip t)) where
   (h,t) = break (== ' ') input
 
+get_wai_port cfg = case (M.lookup "port" cfg) of
+  Just x  -> (read x :: Int)
+  Nothing -> 8000
+
+get_wai_host cfg = case (M.lookup "host" cfg) of
+  Nothing -> HostAny
+  Just x -> Host x
+
+get_wai_opts cfg =
+  def { verbose = 0,
+        settings = (settings def) { settingsPort = get_wai_port cfg,
+                                    settingsHost = get_wai_host cfg
+                                  }
+      }
+
 transformConfigMap :: ConfigMap -> ApotikiConfig
 transformConfigMap cfg =
   ApotikiConfig {
@@ -87,5 +109,6 @@ transformConfigMap cfg =
     origin        = cfg M.! "origin",
     repoDir       = cfg M.! "repo",
     logPath       = cfg M.! "logfile",
-    architectures = parseList $ cfg M.! "architectures"
+    architectures = parseList $ cfg M.! "architectures",
+    waiOpts       = get_wai_opts cfg
     }

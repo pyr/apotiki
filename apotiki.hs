@@ -52,7 +52,7 @@ runCommand logger config ("help":debfiles) = do
 
 runCommand logger config ("web":_) = do
   setupRepo config
-  scotty 8000 $ do
+  scottyOpts (configWai config) $ do
     get "/apotiki.js" $ do
       html $ T.pack jsApp
     get "/index.html" $ do
