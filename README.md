@@ -76,23 +76,39 @@ The resulting container will have the built cabal executable.
 
 ## Configuring
 
-For now the configuration is a serialized haskell structure:
+The configuration file format resembles is a simple column
+separated format, no comment lines are allowed and all configuration
+keys are expected to be downcased.
 
-```haskell
-ApotikiConfig {
-  keyPath = "/etc/apotiki.key",      -- path to a PGP private key
-  architectures = ["amd64", "i386"], -- list of supported architectures
-  component = "main",                -- debian release component
-  release = "precise",               -- debian release name
-  label = "Apotiki",                 -- release label
-  origin = "Apotiki",                -- release origin
-  repoDir = "/srv/repo"              -- repository location, expose via http
-}
 ```
+architectures: i386 amd64
+component: main
+release: precise
+label: Apotiki
+origin: Apotiki
+repo: /tmp/repo
+logfile: STDOUT
+pgp-key:
+  -----BEGIN PGP PRIVATE KEY BLOCK-----
+  Version: GnuPG v2.0.22 (GNU/Linux)
+
+  [base64 nonsense...]
+  -----END PGP PRIVATE KEY BLOCK-----
+                                                            
+```
+
+* `architectures`: list of supported architectures in your repo
+* `component`: name of the release component, a single component is supported for now
+* `release`: name of the debian release you wish to expose
+* `label` and `origin`: Debian repository format details, see [[https://wiki.debian.org/RepositoryFormat#Label]]
+* `repo`: directory where the repo will live
+* `logfile`: either *STDOUT* for console logging or a path to log to
+* `pgp-key`: ascii-armored export of the PGP key to sign the repo with
+
 The PGP private key you wish to use can be exported with:
 
 ```
-gpg -a --export-secret-keys repository-key@your.domain > /etc/apotiki.key
+gpg -a --export-secret-keys repository-key@your.domain
 ```
 
 The config file path can be controlled with the `APOTIKI_CONFIG` environment

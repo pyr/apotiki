@@ -8,11 +8,12 @@ import qualified Data.Binary as Binary
 import qualified Data.OpenPGP.CryptoAPI as PGP
 import qualified Data.ByteString.Lazy as B
 import qualified Data.ByteString as BS
+import qualified Data.ByteString.Char8 as BC
 import Codec.Encryption.OpenPGP.ASCIIArmor as Armor
 import Codec.Encryption.OpenPGP.ASCIIArmor.Types as Armor
 
 get_key keypath = do
-  payload <- BS.readFile keypath
+  let payload = BC.pack keypath
   let Right decoded_key = Armor.decode payload
   let ((Armor _ _ bskey):_) = decoded_key
   let key = Binary.decode bskey

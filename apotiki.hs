@@ -39,8 +39,7 @@ main = do
   let confpath = case result of
         Left e -> "/etc/apotiki.conf"
         Right val -> val
-  confdata <- readFile confpath
-  let config = read confdata :: ApotikiConfig
+  config <- parseFile confpath
   logger <- log_start (configLogPath config)
   log_info logger "starting up"
   args <- getArgs
